@@ -1,0 +1,19 @@
+Activate the virtual environement...
+
+using cmd 
+cd .venv
+cd scripts
+activate
+
+
+run the server
+
+get into BE directory using cmd and launch run.bat 
+this will load the server to access the API using  http://127.0.0.1:5000/
+
+
+run the db server
+
+using cmd 
+cd C:\Program Files\MongoDB\Server\3.6\bin
+mongod

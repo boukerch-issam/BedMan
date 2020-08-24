@@ -2,6 +2,9 @@
 node_modules
 /dist
 
+.env
+**__pycache__**
+BE0
 
 # local env files
 .env.local
