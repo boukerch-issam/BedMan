@@ -1,41 +1,65 @@
-"eslintConfig": {
-	"rules": {
-		"no-unused-vars": "off"
-	}
-}
 <template>
 <div class="hospital">
-    <h1>This is a hospital page</h1>
-    <v-btn icon large target="_blank">
-        <v-icon large>mdi-domain</v-icon>
-    </v-btn>
+    <v-container>
+        <v-row align="start" justify='start'>
+            <v-col class="text-center">
+                <div>
+                    <v-bottom-navigation background-color='green' shift>
+                        <v-btn>
+                            <span>All Hospitals</span>
+                            <v-icon>mdi-hospital-building</v-icon>
+                        </v-btn>
 
-    <h2>Hospital {{ $route.params.id }}</h2>
+                        <v-btn>
+                            <span>Add Hospital</span>
+                            <v-icon>mdi-home-plus-outline</v-icon>
+                        </v-btn>
+                        <v-btn>
+                            <span>Edit Hospital</span>
+                            <v-icon>mdi-home-edit-outline</v-icon>
+                        </v-btn>
+                        <v-btn>
+                            <span>Remove Hospital</span>
+                            <v-icon>mdi-home-remove-outline</v-icon>
+                        </v-btn>
+
+                    </v-bottom-navigation>
+                </div>
+            </v-col>
+        </v-row>
+        <v-row>
+            <AllHospital />
+        </v-row>
+
+    </v-container>
+
 </div>
 </template>
 
 <script>
-export default { 
-    watch: {
-        '$route' (to,from) {
+ import AllHospital from "@/components/AllHospitals";
 
-            console.log(from)
+ export default {
+     name: "Hospital",
+     components: {
+         AllHospital
+     },
+     watch: {
+         '$route'(to, from) {
 
-            if (to.params.id == null) {
-                
-                
-                this.$router.push('/hospital/15')
-            }
-        }
-    },
-    mounted() {
-        if (this.$route.params.id == null) {
+             console.log(from)
 
-            
-                
-                this.$router.push('/hospital/15')
-        }
-    }
-}
+             if (to.params.id == null) {
+
+                 this.$router.push('/hospital/15')
+             }
+         }
+     },
+     mounted() {
+         if (this.$route.params.id == null) {
+
+             this.$router.push('/hospital/15')
+         }
+     }
+ }
 </script>
-
