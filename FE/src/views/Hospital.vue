@@ -1,15 +1,17 @@
 <template>
 <div class="hospital">
     <v-container>
-        <v-row align="start" justify='start'>
+        <v-row>
+            <AllHospital />
+        </v-row>
+        <v-row align="end" justify='start'>
             <v-col class="text-center">
                 <div>
-                    <v-bottom-navigation background-color='green' shift>
+                    <v-bottom-navigation v-model="bottomNav" background-color='green' shift grow @change="botton_nav">
                         <v-btn>
                             <span>All Hospitals</span>
                             <v-icon>mdi-hospital-building</v-icon>
                         </v-btn>
-
                         <v-btn>
                             <span>Add Hospital</span>
                             <v-icon>mdi-home-plus-outline</v-icon>
@@ -27,39 +29,47 @@
                 </div>
             </v-col>
         </v-row>
-        <v-row>
-            <AllHospital />
-        </v-row>
 
     </v-container>
-
 </div>
 </template>
 
 <script>
- import AllHospital from "@/components/AllHospitals";
+import AllHospital from "@/components/AllHospitals";
 
- export default {
-     name: "Hospital",
-     components: {
-         AllHospital
-     },
-     watch: {
-         '$route'(to, from) {
+export default {
+    name: "Hospital",
+    data() {
+        return {
+            bottomNav: '0',
+        }
+    },
+    components: {
+        AllHospital
+    },
+    methods: {
+        botton_nav(e) {
+            console.log(e)
+        }
+    },
 
-             console.log(from)
+    //  watch: {
+    //      '$route'(to, from) {
 
-             if (to.params.id == null) {
+    //          console.log(from)
 
-                 this.$router.push('/hospital/15')
-             }
-         }
-     },
-     mounted() {
-         if (this.$route.params.id == null) {
+    //          if (to.params.id == null) {
 
-             this.$router.push('/hospital/15')
-         }
-     }
- }
+    //              this.$router.push('/hospital/')
+    //          }
+    //      }
+    //  },
+    //  mounted() {
+    //  if (this.$route.params.id == null) {
+
+    //      this.$router.push('/hospital/')
+    //  }
+
+    //}
+}
 </script>
