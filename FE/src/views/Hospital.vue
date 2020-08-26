@@ -25,6 +25,10 @@
                             <v-icon>mdi-home-remove-outline</v-icon>
                         </v-btn>
 
+                        <v-chip  :active= "chip">
+                            {{chiptxt}}
+                        </v-chip>
+
                     </v-bottom-navigation>
                 </div>
             </v-col>
@@ -42,6 +46,8 @@ export default {
     data() {
         return {
             bottomNav: '0',
+            chip: false,
+            chiptxt : ''
         }
     },
     components: {
@@ -49,21 +55,29 @@ export default {
     },
     methods: {
         botton_nav(e) {
-            console.log(e)
+            //console.log(e)
+        },
+        closeCurrentHospital() {
+            this.chip = false
+            this.$store.commit('setCurrentHospital', [])
+
         }
     },
 
-    //  watch: {
-    //      '$route'(to, from) {
+    watch: {
+        '$store.state.currentHospital'() {
 
-    //          console.log(from)
+            if (this.$store.state.currentHospital._id != null) {
+                this.chip = true
+                this.chiptxt='Current Hospital : '+this.$store.state.currentHospital.name
+            } else {
+                this.chiptxt=''
+                this.chip = false
+                
+            }
+        }
 
-    //          if (to.params.id == null) {
-
-    //              this.$router.push('/hospital/')
-    //          }
-    //      }
-    //  },
+    },
     //  mounted() {
     //  if (this.$route.params.id == null) {
 

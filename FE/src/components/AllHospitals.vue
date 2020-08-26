@@ -3,6 +3,7 @@
     <div>
         <v-data-table show-select item-key="_id" :single-select="singleSelect" v-model="selected" :headers="headers" :items="hospitalsList" :items-per-page="5" class="elevation-1"></v-data-table>
     </div>
+    
     <v-snackbar  v-model="snackbar" :color="snackType" :timeout="4000" :multi-line="true" shaped >
         {{ snackMessage }}
 
@@ -18,6 +19,7 @@
 <script>
 import axios from 'axios';
 export default {
+
     data() {
         return {
             singleSelect: true,
@@ -66,10 +68,26 @@ export default {
             this.snackbar = true
         },
         hospitalsList(){
-                        this.snackMessage = "Hospitals data Loaded"
+            
+            this.snackMessage = "Hospitals data Loaded"
             this.snackType = "success"
             this.snackbar = true
-        }
+        },
+        selected(){ 
+            if (this.selected[0] != null){
+            this.$store.commit('setCurrentHospital',  this.selected[0])
+            }else{
+                this.$store.commit('setCurrentHospital',{})
+            }
+        },        
+        // '$store.state.currentHospital'() {
+            
+        //     if (this.$store.state.currentHospital._id == null ){
+            
+        //         this.selected=[]
+        //     }
+        // }
+
 
     }
 
