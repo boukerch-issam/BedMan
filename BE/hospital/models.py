@@ -44,7 +44,7 @@ class Hospital:
             
             if db.hospitals.find_one({"_id":hospital['_id']})  :
                 db.hospitals.delete_one({"_id":hospital['_id']})
-                return jsonify({"resp":"Hospital named : " + hospital['name'] + " found and deleted"}),200
+                return jsonify({"resp":"Hospital with ID : " + hospital['_id'] + " found and deleted"}),200
 
         return  jsonify({"error":"Hospital delete failure"}),400
 
