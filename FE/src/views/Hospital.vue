@@ -1,22 +1,40 @@
 <template>
 <div class="hospital">
-    <v-container>
-        <v-row>
-            <AllHospital :key="respData"/>
+        <v-snackbar v-model="snackbar" :color="snackType" :timeout="4000" :multi-line="true" shaped>
+        {{ snackMessage }}
+
+        <v-btn rounded small @click="snackbar = false" :color="snackType">
+            Close
+        </v-btn>
+
+    </v-snackbar>
+    <v-container align="end" flex  justify='center'>
+
+        <v-row v-if="nav[0]" align="stretch" justify='center'>
+            <v-col cols="12">
+            <AllHospital :key="refreshTable" />
+           </v-col>
         </v-row>
-        <v-row align="end" justify='start'>
+
+        <v-row v-if="nav[1]" align="end" justify='center'> 
+            <v-col cols="12">
+            <AddHospital />
+            </v-col>
+        </v-row>
+
+        <v-row align="stretch"  justify='center'>
             <v-col class="text-center">
                 <div>
                     <v-bottom-navigation v-model="bottomNav" background-color='green' shift grow @change="botton_nav">
-                        <v-btn>
+                        <v-btn @click="nav= [1,0,0]">
                             <span>All Hospitals</span>
                             <v-icon>mdi-hospital-building</v-icon>
                         </v-btn>
-                        <v-btn>
-                            <span>Add Hospital</span>
+                        <v-btn @click="nav= [0,1,0]">
+                            <span>Add Hospital </span>
                             <v-icon>mdi-home-plus-outline</v-icon>
                         </v-btn>
-                        <v-btn>
+                        <v-btn @click="nav= [0,0,1]">
                             <span>Edit Hospital</span>
                             <v-icon>mdi-home-edit-outline</v-icon>
                         </v-btn>
@@ -35,14 +53,7 @@
         </v-row>
 
     </v-container>
-    <v-snackbar v-model="snackbar" :color="snackType" :timeout="4000" :multi-line="true" shaped>
-        {{ snackMessage }}
 
-        <v-btn rounded small @click="snackbar = false" :color="snackType">
-            Close
-        </v-btn>
-
-    </v-snackbar>
 
     <v-dialog v-model="dialog" persistent max-width="500">
         <v-card>
@@ -61,12 +72,14 @@
 
 <script>
 import AllHospital from "@/components/AllHospitals";
+import AddHospital from "@/components/AddHospital";
 import axios from 'axios';
 
 export default {
     name: "Hospital",
     data() {
         return {
+            nav: [1,0,0],
             bottomNav: '0',
             chip: false,
             chiptxt: '',
@@ -75,11 +88,13 @@ export default {
             snackMessage: "",
             snackType: "error",
             errors: [],
-            respData:{},
+            respData: {},
+            refreshTable: true,
         }
     },
     components: {
         AllHospital,
+        AddHospital,
 
     },
     methods: {
@@ -111,7 +126,9 @@ export default {
                 .post('http://127.0.0.1:5000/hospital/delete', {
                     _id: this.$store.state.currentHospital._id
                 })
-                .then(response => {(this.respData = response.data)})
+                .then(response => {
+                    (this.respData = response.data)
+                })
                 .catch(err => (this.errors = err))
 
         }
@@ -134,11 +151,12 @@ export default {
             this.snackType = "error"
             this.snackbar = true
         },
-        respData(){
-            this.snackMessage =this.respData.resp
+        respData() {
+            this.refreshTable = !this.refreshTable
+            this.snackMessage = this.respData.resp
             this.snackType = "success"
             this.snackbar = true
-            this.$store.commit('setCurrentHospital',{})
+            this.$store.commit('setCurrentHospital', {})
 
 
         }
